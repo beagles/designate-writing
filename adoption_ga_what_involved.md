@@ -16,6 +16,12 @@ use cases designate was designed for.
 - **Designate API** — the REST API service for managing DNS zones and records.
 - **Designate mDNS** — the mini-DNS service that sends NOTIFY messages and
   serves zone transfers (AXFR/IXFR) to the authoritative nameservers.
+- **Designate Central** — the core orchestration service that acts as the
+  primary business logic layer. It receives requests from the API via RPC,
+  manages all zone and record state in the database, and coordinates downstream
+  actions by dispatching work to the Worker and mDNS services. All other
+  Designate services communicate through Central rather than directly with each
+  other or the database.
 - **Designate Worker** — performs zone create/update/delete operations against
   the backend nameservers via rndc and monitors zone status.
 - **Designate Producer** — handles periodic tasks such as polling for zone
@@ -27,8 +33,8 @@ use cases designate was designed for.
 
 ### Director-Era Topology
 
-In a Director-based deployment, Designate services (API, mDNS, Worker, Producer)
-run on the controller nodes. BIND9 servers also run on the controllers, listening
+In a Director-based deployment, Designate services (API, Central, mDNS, Worker,
+Producer) run on the controller nodes. BIND9 servers also run on the controllers, listening
 on the Public API / External network to serve authoritative DNS queries. Unbound
 resolvers run on the controllers as well, providing recursive DNS resolution to
 tenant VMs and internal services. Control plane communication (rndc commands,
