@@ -4,10 +4,9 @@
 
 This document describes the RHOSP-to-RHOSO adoption scenario supported as tech
 preview and sets expectations for what it does and does not handle. The tech
-preview covers what the GA adoption document calls the "CI Friendly Scenario": a
-clean, hard cutover of all Designate data and services from the Director-based
-deployment to RHOSO, with no attempt to maintain continuity for existing DNS
-clients or external DNS integrations during the transition.
+preview covers a clean, hard cutover of all Designate data and services from the
+Director-based deployment to RHOSO, with no attempt to maintain continuity for
+existing DNS clients or external DNS integrations during the transition.
 
 This is the baseline adoption scenario. It validates that zone data, recordsets,
 and pool configuration can be migrated from the Director-era MariaDB/Galera
@@ -142,12 +141,11 @@ deployments serve DNS simultaneously. If the Director BIND9 servers are
 decommissioned before external delegation records and tenant resolver references
 are updated, DNS resolution will be disrupted.
 
-The two more complete adoption approaches — the "Half Measure" (which keeps the
-legacy Unbound resolvers in place) and the "Maintenance Window Approach" (which
-keeps both old BIND9 and Unbound running while the new RHOSO deployment is
-brought up alongside them) — are not part of the tech preview. These require
-additional operator development and are documented separately in the GA adoption
-planning materials.
+More complete adoption approaches are not part of the tech preview. These
+include keeping the legacy Unbound resolvers in place while migrating BIND9 to
+RHOSO, and keeping both old BIND9 and Unbound running alongside the new RHOSO
+deployment during a maintenance window. Both require additional operator
+development that is not yet complete.
 
 
 <!-- vim: set tw=80 ai formatoptions+=a : -->
